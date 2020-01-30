@@ -48,6 +48,7 @@ def isvalidmove(arr,row,col):
 
 def solveNQueens(arr,col):
     if col >= len(arr[0]) :
+        print(arr)
         return True
     for row in range(len(arr[0])):
         if isvalidmove(arr,row,col):
