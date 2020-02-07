@@ -7,6 +7,12 @@ height = winsize * winmultiplier
 width = height + winsize * 2
 solvedBoard = []
 buttonOffset = (winsize * 2) // 3
+run = True
+pressed = False
+numberString = ''
+N = 0
+page = 0
+solved = False
 
 
 
@@ -173,57 +179,54 @@ def input_number(numberString):
     window.blit(inputText, inputTextRect)
 
 
-
-run = True
-pressed = False
-numberString = ''
-N = 0
-page = 0
-solved = False
-while run:
-    window.fill(WHITE)
-    if not pressed or N <= 3:
-        main_menu()
-        input_number(numberString)
-        pressed = False
-    elif N > 3:
-        arr = initalize_array(N)
-        draw_chessboard(N)
-        # check if solved so program doesnt solve everytime user changes page
-        if solved:
-            solveNQueens(arr, 0)
-            solved = False
-        populate_cells(solvedBoard[page],N)
-        number_of_solutions(page,solvedBoard)
-
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-            if event.unicode.isdigit():
-                numberString += event.unicode
-            if event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
-                numberString = numberString[:-1]
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            position = pygame.mouse.get_pos()
-            x = position[0]
-            y = position[1]
-            if solverButton.collidepoint(x,y) and not pressed:
-                if numberString != '':
-                    N = int(numberString)
-                    numberString = ''
-                    pressed = True
-                    solved  = True
-            elif previousPage.collidepoint(x,y) and page > 0:
-                page = page - 1
-            elif nextPage.collidepoint(x,y) and page < len(solvedBoard) - 1:
-                page = page + 1
-            elif clearButton.collidepoint(x,y):
-                pressed = False
+def main():
+    global run, pressed, numberString, solved, solvedBoard, page
+    while run:
+        window.fill(WHITE)
+        if not pressed or N <= 3:
+            main_menu()
+            input_number(numberString)
+            pressed = False
+        elif N > 3:
+            arr = initalize_array(N)
+            draw_chessboard(N)
+            # check if solved so program doesnt solve everytime user changes page
+            if solved:
+                solveNQueens(arr, 0)
                 solved = False
-                solvedBoard = []
-                page = 0
-        elif event.type == pygame.QUIT:
-            run = False
-    pygame.display.update()
+            populate_cells(solvedBoard[page],N)
+            number_of_solutions(page,solvedBoard)
 
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.unicode.isdigit():
+                    numberString += event.unicode
+                if event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
+                    numberString = numberString[:-1]
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                position = pygame.mouse.get_pos()
+                x = position[0]
+                y = position[1]
+                if solverButton.collidepoint(x,y) and not pressed:
+                    if numberString != '':
+                        N = int(numberString)
+                        numberString = ''
+                        pressed = True
+                        solved  = True
+                elif previousPage.collidepoint(x,y) and page > 0:
+                    page = page - 1
+                elif nextPage.collidepoint(x,y) and page < len(solvedBoard) - 1:
+                    page = page + 1
+                elif clearButton.collidepoint(x,y):
+                    pressed = False
+                    solved = False
+                    solvedBoard = []
+                    page = 0
+            elif event.type == pygame.QUIT:
+                run = False
+        pygame.display.update()
+
+
+main()
 pygame.quit()
 
