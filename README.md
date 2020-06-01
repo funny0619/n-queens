@@ -2,7 +2,7 @@
 The N-queens puzzle is the problem of placing N chess queens on an NxN chessboard so that none of the queens threaten each other (Queens can move horizontally, vertically, and diagonally with no limit on distance). This project uses a backtracking algorithm to crack the puzzle for any N bigger than 4. Pygame module was used to construct the GUI.
 
 # Installation
-The Pygame module is needed for the GUI of the Sudoku Solver to work properly.
+The Pygame module is needed for the GUI of the N-Queens Solver to work properly.
 More information on pygame can be accessed through https://www.pygame.org/wiki/GettingStarted.
 
 # Instructions
